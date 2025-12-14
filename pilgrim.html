@@ -7,98 +7,53 @@
   <title>Pilgrim Emergency Information</title>
 
   <!-- 🔥 FIREBASE SDK -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+ <script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+  import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-lite.js";
 
-    // 🔴 REPLACE WITH YOUR REAL CONFIG
-    const firebaseConfig = {
-      apiKey: "AIzaSyAql2b6h8Wd0d1MAhsz3HPB51A5yXNMByg",
-      authDomain: "coworker.firebaseapp.com",
-      projectId: "coworker"
-    };
+  const firebaseConfig = {
+    apiKey: "YOUR_API_KEY",
+    authDomain: "coworker.firebaseapp.com",
+    projectId: "coworker"
+  };
 
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
 
-    const params = new URLSearchParams(window.location.search);
-    const braceletId = params.get("id");
+  window.addEventListener("DOMContentLoaded", async () => {
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const braceletId = params.get("id");
 
-    if (!braceletId) {
-      document.body.innerHTML = "Invalid bracelet ID";
-      throw new Error("Missing ID");
-    }
+      if (!braceletId) {
+        alert("Missing bracelet ID");
+        return;
+      }
 
-    const ref = doc(db, "pilgrims", braceletId);
-    const snap = await getDoc(ref);
+      const ref = doc(db, "pilgrims", braceletId);
+      const snap = await getDoc(ref);
 
-    if (!snap.exists()) {
-      document.body.innerHTML = "Pilgrim not found";
-      throw new Error("Not found");
-    }
+      if (!snap.exists()) {
+        alert("Pilgrim not found: " + braceletId);
+        return;
+      }
 
-    const pilgrim = snap.data();
+      const pilgrim = snap.data();
+      console.log("Loaded pilgrim:", pilgrim);
 
-    // Populate UI after load
-    window.addEventListener("DOMContentLoaded", () => {
-
-      // Profile
-      document.getElementById("full_name").innerText = pilgrim.full_name;
+      document.getElementById("full_name").innerText = pilgrim.full_name || "";
       document.getElementById("age").innerText = pilgrim.age ? pilgrim.age + " years" : "";
       document.getElementById("gender").innerText = pilgrim.gender || "";
       document.getElementById("nationality").innerText = pilgrim.nationality || "";
       document.getElementById("blood_type").innerText = pilgrim.blood_type || "";
-
-      if (pilgrim.photo_url) {
-        document.getElementById("photo").src = pilgrim.photo_url;
-        document.getElementById("photo").style.display = "block";
-      }
-
-      // Group
       document.getElementById("group_agency").innerText = pilgrim.group_agency || "";
 
-      // Makkah Hotel
-      if (pilgrim.makkah_hotel?.name) {
-        document.getElementById("makkah_hotel").innerText = pilgrim.makkah_hotel.name;
-      }
-      if (pilgrim.makkah_hotel?.room) {
-        document.getElementById("makkah_room").innerText = pilgrim.makkah_hotel.room;
-      }
-      if (pilgrim.makkah_hotel?.location) {
-        const { lat, lng } = pilgrim.makkah_hotel.location;
-        document.getElementById("makkah_map").href =
-          `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`;
-      }
-
-      // Madinah Hotel
-      if (pilgrim.madinah_hotel?.name) {
-        document.getElementById("madinah_hotel").innerText = pilgrim.madinah_hotel.name;
-      }
-      if (pilgrim.madinah_hotel?.room) {
-        document.getElementById("madinah_room").innerText = pilgrim.madinah_hotel.room;
-      }
-      if (pilgrim.madinah_hotel?.location) {
-        const { lat, lng } = pilgrim.madinah_hotel.location;
-        document.getElementById("madinah_map").href =
-          `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`;
-      }
-
-      // Medical
-      document.getElementById("conditions").innerText = pilgrim.medical?.conditions || "None";
-      document.getElementById("allergies").innerText = pilgrim.medical?.allergies || "None";
-      document.getElementById("medications").innerText = pilgrim.medical?.medications || "None";
-
-      // Emergency Contact
-      if (pilgrim.emergency_contact) {
-        document.getElementById("em_name").innerText = pilgrim.emergency_contact.name || "";
-        document.getElementById("em_relation").innerText = pilgrim.emergency_contact.relationship || "";
-        document.getElementById("em_phone").innerText = pilgrim.emergency_contact.phone || "";
-        document.getElementById("call_btn").href = "tel:" + pilgrim.emergency_contact.phone;
-      }
-
-      document.getElementById("bracelet_id").innerText = braceletId;
-    });
-  </script>
+    } catch (e) {
+      console.error(e);
+      alert("Error loading pilgrim data");
+    }
+  });
+</script>
 
   <!-- 🎨 YOUR STYLES (UNCHANGED CORE DESIGN) -->
   <style>
@@ -214,3 +169,4 @@
   </div>
 </body>
 </html>
+
