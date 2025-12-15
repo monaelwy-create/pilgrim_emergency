@@ -142,6 +142,9 @@
   }
 
   const p = snap.data();
+  console.log("FULL DOCUMENT:", p);
+  console.log("MEDICAL OBJECT:", p.medical);
+
 
   // BASIC INFO
   full_name.textContent = p.full_name || "";
@@ -182,3 +185,4 @@
 
 </body>
 </html>
+
