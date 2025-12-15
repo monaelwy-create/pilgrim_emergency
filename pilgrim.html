@@ -47,7 +47,7 @@
       document.getElementById("nationality").innerText = pilgrim.nationality || "";
       document.getElementById("blood_type").innerText = pilgrim.blood_type || "";
       document.getElementById("group_agency").innerText = pilgrim.group_agency || "";
-      document.getElementById("makkah_hotel").innerText = pilgrim.makkah_hotel || "";
+      document.getElementById("makkah_hotel.name").innerText = pilgrim.makkah_hotel.name || "";
 
     } catch (e) {
       console.error(e);
@@ -138,7 +138,7 @@
 
     <div class="section">
       <div class="label">Makkah Hotel</div>
-      <div id="makkah_hotel"></div>
+      <div id="makkah_hotel.name"></div>
       <div id="makkah_room"></div>
       <a id="makkah_map" target="_blank">📍 Directions</a>
     </div>
@@ -175,6 +175,7 @@
   </div>
 </body>
 </html>
+
 
 
 
