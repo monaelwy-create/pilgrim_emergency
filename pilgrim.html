@@ -2,42 +2,89 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Pilgrim Emergency Information</title>
 
   <style>
     body {
       font-family: Arial, sans-serif;
-      background: #f2f2f2;
+      background: #f4f6f8;
+      margin: 0;
       padding: 15px;
     }
+
     .container {
-      max-width: 800px;
-      background: #fff;
+      max-width: 850px;
       margin: auto;
-      border-radius: 10px;
+      background: #ffffff;
+      border-radius: 12px;
       overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
     }
+
     .header {
-      background: #c0392b;
+      background: #8e2a2a;
       color: white;
-      padding: 20px;
+      padding: 25px 15px;
       text-align: center;
     }
+
+    .header h1 {
+      margin: 0;
+      font-size: 26px;
+    }
+
+    .pilgrim-name {
+      text-align: center;
+      font-size: 24px;
+      font-weight: bold;
+      margin: 25px 0 10px;
+      color: #2c3e50;
+    }
+
     .section {
       padding: 20px;
       border-top: 1px solid #eee;
     }
+
+    .section h3 {
+      margin-top: 0;
+      color: #8e2a2a;
+      border-bottom: 2px solid #eee;
+      padding-bottom: 5px;
+    }
+
+    .field {
+      margin-bottom: 10px;
+    }
+
     .label {
       font-weight: bold;
-      margin-top: 10px;
-    }
-    .value {
-      margin-bottom: 10px;
-      color: #333;
-    }
-    .call {
+      color: #555;
       display: block;
+    }
+
+    .value {
+      color: #000;
+      margin-top: 3px;
+    }
+
+    .highlight {
+      color: #c0392b;
+      font-weight: bold;
+    }
+
+    .map-link {
+      display: inline-block;
+      margin-top: 8px;
+      color: #1e88e5;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .call-btn {
+      display: block;
+      margin-top: 15px;
       background: #27ae60;
       color: white;
       text-align: center;
@@ -45,75 +92,125 @@
       border-radius: 8px;
       font-size: 18px;
       text-decoration: none;
-      margin-top: 10px;
     }
   </style>
 </head>
 
 <body>
+
 <div class="container">
 
   <div class="header">
-    <h1>🚨 Emergency Information</h1>
+    <h1>🚨 Emergency Pilgrim Information</h1>
   </div>
 
+  <!-- PILGRIM NAME CENTER -->
+  <div class="pilgrim-name" id="full_name"></div>
+
+  <!-- BASIC INFO -->
   <div class="section">
-    <div class="label">Full Name</div>
-    <div class="value" id="full_name"></div>
+    <h3>👤 Personal Information</h3>
 
-    <div class="label">Age</div>
-    <div class="value" id="age"></div>
+    <div class="field">
+      <span class="label">Age</span>
+      <span class="value" id="age"></span>
+    </div>
 
-    <div class="label">Gender</div>
-    <div class="value" id="gender"></div>
+    <div class="field">
+      <span class="label">Gender</span>
+      <span class="value" id="gender"></span>
+    </div>
 
-    <div class="label">Nationality</div>
-    <div class="value" id="nationality"></div>
+    <div class="field">
+      <span class="label">Nationality</span>
+      <span class="value" id="nationality"></span>
+    </div>
 
-    <div class="label">Blood Type</div>
-    <div class="value" id="blood_type" style="color:red;font-weight:bold;"></div>
+    <div class="field">
+      <span class="label">Blood Type</span>
+      <span class="value highlight" id="blood_type"></span>
+    </div>
   </div>
 
+  <!-- MEDICAL -->
   <div class="section">
     <h3>🩺 Medical Information</h3>
 
-    <div class="label">Conditions</div>
-    <div class="value" id="conditions"></div>
-
-    <div class="label">Allergies</div>
-    <div class="value" id="allergies"></div>
-
-    <div class="label">Medications</div>
-    <div class="value" id="medications"></div>
-  </div>
-
-  <div class="section">
-    <h3>🏨 Makkah Hotel</h3>
-    <div class="label">Hotel Name :
-      <div class="value" id="makkah_name"></div>
+    <div class="field">
+      <span class="label">Medical Conditions</span>
+      <span class="value" id="conditions"></span>
     </div>
-    <div class="value" id="makkah_room">Room Number :</div>
-    <a id="makkah_map" target="_blank">📍 Open in Maps</a>
+
+    <div class="field">
+      <span class="label">Allergies</span>
+      <span class="value" id="allergies"></span>
+    </div>
+
+    <div class="field">
+      <span class="label">Medications</span>
+      <span class="value" id="medications"></span>
+    </div>
   </div>
 
+  <!-- MAKKAH HOTEL -->
   <div class="section">
-    <h3>🏨 Madinah Hotel</h3>
-    <div class="value" id="madinah_name">Hotel name :</div>
-    <div class="value" id="madinah_room">Room Number :</div>
-    <a id="madinah_map" target="_blank">📍 Open in Maps</a>
+    <h3>🏨 Makkah Accommodation</h3>
+
+    <div class="field">
+      <span class="label">Hotel Name</span>
+      <span class="value" id="makkah_name"></span>
+    </div>
+
+    <div class="field">
+      <span class="label">Room Number</span>
+      <span class="value" id="makkah_room"></span>
+    </div>
+
+    <a id="makkah_map" class="map-link" target="_blank">📍 View Location on Map</a>
   </div>
 
+  <!-- MADINAH HOTEL -->
+  <div class="section">
+    <h3>🏨 Madinah Accommodation</h3>
+
+    <div class="field">
+      <span class="label">Hotel Name</span>
+      <span class="value" id="madinah_name"></span>
+    </div>
+
+    <div class="field">
+      <span class="label">Room Number</span>
+      <span class="value" id="madinah_room"></span>
+    </div>
+
+    <a id="madinah_map" class="map-link" target="_blank">📍 View Location on Map</a>
+  </div>
+
+  <!-- EMERGENCY CONTACT -->
   <div class="section">
     <h3>📞 Emergency Contact</h3>
-    <div class="value" id="em_name">Contact Name :</div>
-    <div class="value" id="em_relation">Contact Relationship :</div>
-    <div class="value" id="em_phone">Contact Number :</div>
-    <a id="call_btn" class="call">Call Emergency Contact</a>
+
+    <div class="field">
+      <span class="label">Contact Name</span>
+      <span class="value" id="em_name"></span>
+    </div>
+
+    <div class="field">
+      <span class="label">Relationship</span>
+      <span class="value" id="em_relation"></span>
+    </div>
+
+    <div class="field">
+      <span class="label">Contact Number</span>
+      <span class="value" id="em_phone"></span>
+    </div>
+
+    <a id="call_btn" class="call-btn">📞 Call Emergency Contact</a>
   </div>
 
 </div>
 
-<!-- 🔥 FIREBASE LOGIC -->
+<!-- FIREBASE LOGIC (unchanged except formatting safety) -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
   import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
@@ -127,56 +224,37 @@
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
 
-  const params = new URLSearchParams(window.location.search);
-  const braceletId = params.get("id");
-
-  if (!braceletId) {
-    alert("Invalid bracelet ID");
-    throw new Error("Missing ID");
-  }
-
-  const ref = doc(db, "pilgrims", braceletId);
-  const snap = await getDoc(ref);
-
-  if (!snap.exists()) {
-    alert("Pilgrim not found");
-    throw new Error("Not found");
-  }
-
+  const id = new URLSearchParams(window.location.search).get("id");
+  const snap = await getDoc(doc(db, "pilgrims", id));
   const p = snap.data();
-  console.log("FULL DOCUMENT:", p);
-  console.log("MEDICAL OBJECT:", p.medical);
 
-
-  // BASIC INFO
+  // Personal
   full_name.textContent = p.full_name || "";
   age.textContent = p.age ? p.age + " years" : "";
   gender.textContent = p.gender || "";
   nationality.textContent = p.nationality || "";
   blood_type.textContent = p.blood_type || "";
 
-  // MEDICAL (nested)
+  // Medical
   conditions.textContent = p.medical?.conditions || "None";
   allergies.textContent = p.medical?.allergies || "None";
   medications.textContent = p.medical?.medications || "None";
 
-  // MAKKAH HOTEL (nested)
+  // Makkah
   makkah_name.textContent = p.makkah_hotel?.name || "";
   makkah_room.textContent = p.makkah_hotel?.room || "";
   if (p.makkah_hotel?.location) {
-    makkah_map.href =
-      `https://www.google.com/maps/dir/?api=1&destination=${p.makkah_hotel.location.lat},${p.makkah_hotel.location.lng}`;
+    makkah_map.href = `https://www.google.com/maps?q=${p.makkah_hotel.location.lat},${p.makkah_hotel.location.lng}`;
   }
 
-  // MADINAH HOTEL (nested)
+  // Madinah
   madinah_name.textContent = p.madinah_hotel?.name || "";
   madinah_room.textContent = p.madinah_hotel?.room || "";
   if (p.madinah_hotel?.location) {
-    madinah_map.href =
-      `https://www.google.com/maps/dir/?api=1&destination=${p.madinah_hotel.location.lat},${p.madinah_hotel.location.lng}`;
+    madinah_map.href = `https://www.google.com/maps?q=${p.madinah_hotel.location.lat},${p.madinah_hotel.location.lng}`;
   }
 
-  // EMERGENCY CONTACT (nested)
+  // Emergency
   if (p.emergency_contact) {
     em_name.textContent = p.emergency_contact.name || "";
     em_relation.textContent = p.emergency_contact.relationship || "";
@@ -187,6 +265,3 @@
 
 </body>
 </html>
-
-
-
