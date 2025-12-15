@@ -1,15 +1,120 @@
 <!DOCTYPE html>
-<!--   https://coworker-a215c-default-rtdb.firebaseio.com/ -->
-<html lang="en" dir="ltr">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Pilgrim Emergency Information</title>
 
-  <!-- 🔥 FIREBASE SDK -->
- <script type="module">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f2f2f2;
+      padding: 15px;
+    }
+    .container {
+      max-width: 800px;
+      background: #fff;
+      margin: auto;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .header {
+      background: #c0392b;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+    .section {
+      padding: 20px;
+      border-top: 1px solid #eee;
+    }
+    .label {
+      font-weight: bold;
+      margin-top: 10px;
+    }
+    .value {
+      margin-bottom: 10px;
+      color: #333;
+    }
+    .call {
+      display: block;
+      background: #27ae60;
+      color: white;
+      text-align: center;
+      padding: 15px;
+      border-radius: 8px;
+      font-size: 18px;
+      text-decoration: none;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+
+<body>
+<div class="container">
+
+  <div class="header">
+    <h1>🚨 Emergency Information</h1>
+  </div>
+
+  <div class="section">
+    <div class="label">Full Name</div>
+    <div class="value" id="full_name"></div>
+
+    <div class="label">Age</div>
+    <div class="value" id="age"></div>
+
+    <div class="label">Gender</div>
+    <div class="value" id="gender"></div>
+
+    <div class="label">Nationality</div>
+    <div class="value" id="nationality"></div>
+
+    <div class="label">Blood Type</div>
+    <div class="value" id="blood_type" style="color:red;font-weight:bold;"></div>
+  </div>
+
+  <div class="section">
+    <h3>🩺 Medical Information</h3>
+
+    <div class="label">Conditions</div>
+    <div class="value" id="conditions"></div>
+
+    <div class="label">Allergies</div>
+    <div class="value" id="allergies"></div>
+
+    <div class="label">Medications</div>
+    <div class="value" id="medications"></div>
+  </div>
+
+  <div class="section">
+    <h3>🏨 Makkah Hotel</h3>
+    <div class="value" id="makkah_name"></div>
+    <div class="value" id="makkah_room"></div>
+    <a id="makkah_map" target="_blank">📍 Open in Maps</a>
+  </div>
+
+  <div class="section">
+    <h3>🏨 Madinah Hotel</h3>
+    <div class="value" id="madinah_name"></div>
+    <div class="value" id="madinah_room"></div>
+    <a id="madinah_map" target="_blank">📍 Open in Maps</a>
+  </div>
+
+  <div class="section">
+    <h3>📞 Emergency Contact</h3>
+    <div class="value" id="em_name"></div>
+    <div class="value" id="em_relation"></div>
+    <div class="value" id="em_phone"></div>
+    <a id="call_btn" class="call">Call Emergency Contact</a>
+  </div>
+
+</div>
+
+<!-- 🔥 FIREBASE LOGIC -->
+<script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-  import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-lite.js";
+  import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyAql2b6h8Wd0d1MAhsz3HPB51A5yXNMByg",
@@ -20,167 +125,60 @@
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
 
-  window.addEventListener("DOMContentLoaded", async () => {
-    try {
-      const params = new URLSearchParams(window.location.search);
-      const braceletId = params.get("id");
+  const params = new URLSearchParams(window.location.search);
+  const braceletId = params.get("id");
 
-      if (!braceletId) {
-        alert("Missing bracelet ID");
-        return;
-      }
+  if (!braceletId) {
+    alert("Invalid bracelet ID");
+    throw new Error("Missing ID");
+  }
 
-      const ref = doc(db, "pilgrims", braceletId);
-      const snap = await getDoc(ref);
+  const ref = doc(db, "pilgrims", braceletId);
+  const snap = await getDoc(ref);
 
-      if (!snap.exists()) {
-        alert("Pilgrim not found: " + braceletId);
-        return;
-      }
+  if (!snap.exists()) {
+    alert("Pilgrim not found");
+    throw new Error("Not found");
+  }
 
-      const pilgrim = snap.data();
-      console.log("Loaded pilgrim:", pilgrim);
+  const p = snap.data();
 
-      document.getElementById("full_name").innerText = pilgrim.full_name || "";
-      document.getElementById("age").innerText = pilgrim.age ? pilgrim.age + " years" : "";
-      document.getElementById("gender").innerText = pilgrim.gender || "";
-      document.getElementById("nationality").innerText = pilgrim.nationality || "";
-      document.getElementById("blood_type").innerText = pilgrim.blood_type || "";
-      document.getElementById("group_agency").innerText = pilgrim.group_agency || "";
-      
+  // BASIC INFO
+  full_name.textContent = p.full_name || "";
+  age.textContent = p.age ? p.age + " years" : "";
+  gender.textContent = p.gender || "";
+  nationality.textContent = p.nationality || "";
+  blood_type.textContent = p.blood_type || "";
 
-    } catch (e) {
-      console.error(e);
-      alert("Error loading pilgrim data");
-    }
-  });
+  // MEDICAL (nested)
+  conditions.textContent = p.medical?.conditions || "None";
+  allergies.textContent = p.medical?.allergies || "None";
+  medications.textContent = p.medical?.medications || "None";
+
+  // MAKKAH HOTEL (nested)
+  makkah_name.textContent = p.makkah_hotel?.name || "";
+  makkah_room.textContent = p.makkah_hotel?.room || "";
+  if (p.makkah_hotel?.location) {
+    makkah_map.href =
+      `https://www.google.com/maps/dir/?api=1&destination=${p.makkah_hotel.location.lat},${p.makkah_hotel.location.lng}`;
+  }
+
+  // MADINAH HOTEL (nested)
+  madinah_name.textContent = p.madinah_hotel?.name || "";
+  madinah_room.textContent = p.madinah_hotel?.room || "";
+  if (p.madinah_hotel?.location) {
+    madinah_map.href =
+      `https://www.google.com/maps/dir/?api=1&destination=${p.madinah_hotel.location.lat},${p.madinah_hotel.location.lng}`;
+  }
+
+  // EMERGENCY CONTACT (nested)
+  if (p.emergency_contact) {
+    em_name.textContent = p.emergency_contact.name || "";
+    em_relation.textContent = p.emergency_contact.relationship || "";
+    em_phone.textContent = p.emergency_contact.phone || "";
+    call_btn.href = "tel:" + p.emergency_contact.phone;
+  }
 </script>
 
-  <!-- 🎨 YOUR STYLES (UNCHANGED CORE DESIGN) -->
-  <style>
-    body {
-      font-family: 'Segoe UI', Tahoma, sans-serif;
-      background: linear-gradient(135deg, #667eea, #764ba2);
-      padding: 20px;
-    }
-    .container {
-      max-width: 800px;
-      background: white;
-      margin: auto;
-      border-radius: 10px;
-      overflow: hidden;
-    }
-    .header {
-      background: #dc3545;
-      color: white;
-      text-align: center;
-      padding: 20px;
-    }
-    .profile {
-      text-align: center;
-      padding: 20px;
-    }
-    .photo {
-      width: 140px;
-      height: 140px;
-      border-radius: 50%;
-      object-fit: cover;
-      display: none;
-    }
-    .section {
-      padding: 20px;
-      border-top: 1px solid #eee;
-    }
-    .label {
-      font-weight: bold;
-      color: #555;
-    }
-    .value {
-      margin-bottom: 10px;
-    }
-    .call {
-      display: block;
-      background: #28a745;
-      color: white;
-      text-align: center;
-      padding: 15px;
-      border-radius: 8px;
-      font-size: 20px;
-      text-decoration: none;
-    }
-  </style>
-</head>
-
-<body>
-  <script>
-  alert("JS IS RUNNING");
-</script>
-
-  <div class="container">
-
-    <div class="header">
-      <h1>🚨 Emergency Information</h1>
-    </div>
-
-    <div class="profile">
-      <img id="photo" class="photo" />
-      <h2 id="full_name"></h2>
-      <div id="age"></div>
-      <div id="gender"></div>
-      <div id="nationality"></div>
-      <div id="blood_type" style="color:red;font-weight:bold;"></div>
-    </div>
-
-    <div class="section">
-      <div class="label">Group Agency</div>
-      <div class="value" id="group_agency"></div>
-    </div>
-
-    <div class="section">
-      <div class="label">Makkah Hotel</div>
-      <div id="makkah_hotel"></div>
-      <div id="makkah_room"></div>
-      <a id="makkah_map" target="_blank">📍 Directions</a>
-    </div>
-
-    <div class="section">
-      <div class="label">Madinah Hotel</div>
-      <div id="madinah_hotel"></div>
-      <div id="madinah_room"></div>
-      <a id="madinah_map" target="_blank">📍 Directions</a>
-    </div>
-
-    <div class="section">
-      <div class="label">Medical 
-        <div id="conditions"></div>
-        <div class="label">Allergies</div>
-        <div id="allergies"></div>
-        <div class="label">Medications</div>
-        <div id="medications"></div>
-     </div>
-    </div>
-
-    <div class="section">
-      <div class="label">Emergency Contact</div>
-      <div id="em_name"></div>
-      <div id="em_relation"></div>
-      <div id="em_phone"></div>
-      <a id="call_btn" class="call">📞 Call Now</a>
-    </div>
-
-    <div class="section" style="text-align:center;color:#666;">
-      Bracelet ID: <span id="bracelet_id"></span>
-    </div>
-
-  </div>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
