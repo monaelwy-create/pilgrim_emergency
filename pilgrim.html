@@ -93,6 +93,21 @@
       font-size: 18px;
       text-decoration: none;
     }
+
+    #photoWrapper {
+  text-align: center;
+  margin: 20px 0;
+}
+
+#pilgrim_photo {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid #8e2a2a;
+  display: inline-block; /* important */
+}
+
   </style>
 </head>
 
@@ -105,7 +120,7 @@
   </div>
 
   <!-- PILGRIM PHOTO (NFC ONLY) -->
-<center><div id="photoWrapper" style="text-align:center; margin:20px 0;">
+<div id="photoWrapper" style="text-align:center; margin:20px 0;">
   <img
     id="pilgrim_photo"
     alt="Pilgrim Photo"
@@ -118,7 +133,7 @@
       display:none;
     "
   >
-</div></center>
+</div>
 
 
   <!-- PILGRIM NAME CENTER -->
@@ -331,6 +346,7 @@ if (p.group_leader) {
 
 </body>
 </html>
+
 
 
 
