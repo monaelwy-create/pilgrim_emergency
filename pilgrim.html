@@ -104,6 +104,23 @@
     <h1>🚨 Emergency Pilgrim Information</h1>
   </div>
 
+  <!-- PILGRIM PHOTO (NFC ONLY) -->
+<div id="photoWrapper" style="text-align:center; margin:20px 0;">
+  <img
+    id="pilgrim_photo"
+    alt="Pilgrim Photo"
+    style="
+      width:140px;
+      height:140px;
+      border-radius:50%;
+      object-fit:cover;
+      border:4px solid #8e2a2a;
+      display:none;
+    "
+  >
+</div>
+
+
   <!-- PILGRIM NAME CENTER -->
   <div class="pilgrim-name" id="full_name"></div>
 
@@ -256,6 +273,13 @@
   const snap = await getDoc(doc(db, "pilgrims", id));
   const p = snap.data();
 
+  // SHOW PHOTO ONLY ON NFC PAGE
+if (p.photo_url) {
+  pilgrim_photo.src = p.photo_url;
+  pilgrim_photo.style.display = "block";
+}
+
+
   // Personal
   full_name.textContent = p.full_name || "";
   age.textContent = p.age ? p.age + " years" : "";
@@ -307,6 +331,7 @@ if (p.group_leader) {
 
 </body>
 </html>
+
 
 
 
