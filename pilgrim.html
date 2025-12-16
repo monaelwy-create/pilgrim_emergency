@@ -159,19 +159,25 @@
     </div>
 
     <div class="field">
+  <span class="label">Pilgrim ID</span>
+  <span class="value highlight" id="pilgrim_id"></span>
+</div>
+
+    <div class="field">
     <span class="label">Group / Agency</span>
     <span class="value" id="group_agency"></span>
     </div>
 
-    <div class="field">
-      <span class="label">Blood Type</span>
-      <span class="value highlight" id="blood_type"></span>
-    </div>
-  </div>
 
   <!-- MEDICAL -->
   <div class="section">
     <h3>🩺 Medical Information</h3>
+
+     <div class="field">
+      <span class="label">Blood Type</span>
+      <span class="value highlight" id="blood_type"></span>
+    </div>
+  </div>
 
     <div class="field">
       <span class="label">Medical Conditions</span>
@@ -300,10 +306,11 @@ if (p.photo_url) {
   age.textContent = p.age ? p.age + " years" : "";
   gender.textContent = p.gender || "";
   nationality.textContent = p.nationality || "";
+  pilgrim_id.textContent = id;
   group_agency.textContent = p.group_agency || "";
-  blood_type.textContent = p.blood_type || "";
-
+ 
   // Medical
+   blood_type.textContent = p.blood_type || "";
   conditions.textContent = p.medical?.conditions || "None";
   allergies.textContent = p.medical?.allergies || "None";
   medications.textContent = p.medical?.medications || "None";
@@ -354,6 +361,7 @@ if (p.group_leader) {
 
 </body>
 </html>
+
 
 
 
