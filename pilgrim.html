@@ -192,23 +192,28 @@
   </div>
 
   <!-- EMERGENCY CONTACT -->
-  <div class="section">
-    <h3>📞 Emergency Contact</h3>
+ <div class="section">
+  <h3>📞 Emergency Contact</h3>
 
-    <div class="field">
-      <span class="label">Contact Name</span>
-      <span class="value" id="em_name"></span>
-    </div>
+  <div class="field">
+    <span class="label">Contact Name</span>
+    <span class="value" id="em_name"></span>
+  </div>
 
-    <div class="field">
-      <span class="label">Relationship</span>
-      <span class="value" id="em_relation"></span>
-    </div>
+  <div class="field">
+    <span class="label">Relationship</span>
+    <span class="value" id="em_relation"></span>
+  </div>
 
-    <div class="field">
-      <span class="label">Contact Number</span>
-      <span class="value" id="em_phone"></span>
-    </div>
+  <div class="field">
+    <span class="label">Contact Number</span>
+    <span class="value" id="em_phone"></span>
+  </div>
+
+  <!-- ✅ BUTTON STAYS HERE -->
+  <a id="call_btn" class="call-btn">📞 Call Emergency Contact</a>
+</div>
+
 
     <!-- GROUP LEADER CONTACT -->
 <div class="section">
@@ -229,13 +234,8 @@
     <span class="value" id="leader_phone"></span>
   </div>
 
+  <!-- ✅ BUTTON STAYS HERE -->
   <a id="leader_call_btn" class="call-btn">📞 Call Group Leader</a>
-</div>
-
-
-    <a id="call_btn" class="call-btn">📞 Call Emergency Contact</a>
-  </div>
-
 </div>
 
 <!-- FIREBASE LOGIC (unchanged except formatting safety) -->
@@ -307,6 +307,7 @@ if (p.group_leader) {
 
 </body>
 </html>
+
 
 
 
