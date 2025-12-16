@@ -210,6 +210,29 @@
       <span class="value" id="em_phone"></span>
     </div>
 
+    <!-- GROUP LEADER CONTACT -->
+<div class="section">
+  <h3>🧭 Group Leader Contact</h3>
+
+  <div class="field">
+    <span class="label">Leader Name</span>
+    <span class="value" id="leader_name"></span>
+  </div>
+
+  <div class="field">
+    <span class="label">Leader Role</span>
+    <span class="value" id="leader_role"></span>
+  </div>
+
+  <div class="field">
+    <span class="label">Leader Phone</span>
+    <span class="value" id="leader_phone"></span>
+  </div>
+
+  <a id="leader_call_btn" class="call-btn">📞 Call Group Leader</a>
+</div>
+
+
     <a id="call_btn" class="call-btn">📞 Call Emergency Contact</a>
   </div>
 
@@ -267,9 +290,23 @@
     em_phone.textContent = p.emergency_contact.phone || "";
     call_btn.href = "tel:" + p.emergency_contact.phone;
   }
+
+  // GROUP LEADER CONTACT
+if (p.group_leader) {
+  leader_name.textContent = p.group_leader.name || "";
+  leader_role.textContent = p.group_leader.role || "Group Leader";
+  leader_phone.textContent = p.group_leader.phone || "";
+
+  leader_call_btn.href = "tel:" + p.group_leader.phone;
+} else {
+  // hide section if no leader exists
+  leader_call_btn.style.display = "none";
+}
+
 </script>
 
 </body>
 </html>
+
 
 
