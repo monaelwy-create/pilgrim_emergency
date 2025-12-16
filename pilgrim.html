@@ -311,16 +311,24 @@ if (p.photo_url) {
   // Makkah
   makkah_name.textContent = p.makkah_hotel?.name || "";
   makkah_room.textContent = p.makkah_hotel?.room || "";
-  if (p.makkah_hotel?.location) {
-    makkah_map.href = `https://www.google.com/maps?q=${p.makkah_hotel.location.lat},${p.makkah_hotel.location.lng}`;
-  }
+  if (p.makkah_hotel?.location?.lat && p.makkah_hotel?.location?.lng) {
+  makkah_map.href =
+    `https://www.google.com/maps?q=${p.makkah_hotel.location.lat},${p.makkah_hotel.location.lng}`;
+} else {
+  makkah_map.style.display = "none";
+}
+
 
   // Madinah
   madinah_name.textContent = p.madinah_hotel?.name || "";
   madinah_room.textContent = p.madinah_hotel?.room || "";
-  if (p.madinah_hotel?.location) {
-    madinah_map.href = `https://www.google.com/maps?q=${p.madinah_hotel.location.lat},${p.madinah_hotel.location.lng}`;
-  }
+  if (p.madinah_hotel?.location?.lat && p.madinah_hotel?.location?.lng) {
+  madinah_map.href =
+    `https://www.google.com/maps?q=${p.madinah_hotel.location.lat},${p.madinah_hotel.location.lng}`;
+} else {
+  madinah_map.style.display = "none";
+}
+
 
   // Emergency
   if (p.emergency_contact) {
@@ -346,6 +354,7 @@ if (p.group_leader) {
 
 </body>
 </html>
+
 
 
 
