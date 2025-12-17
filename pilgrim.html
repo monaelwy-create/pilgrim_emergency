@@ -119,6 +119,15 @@
   display: inline-block; /* important */
 }
 
+    [dir="rtl"] .field {
+  text-align: right;
+}
+
+[dir="rtl"] .label {
+  text-align: right;
+}
+
+
   </style>
 </head>
 
@@ -291,6 +300,75 @@
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
   import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
+  let currentLang = "en";
+
+const labels = {
+  en: {
+    personal_info: "👤 Personal Information",
+    age: "Age",
+    gender: "Gender",
+    nationality: "Nationality",
+    group_agency: "Group / Agency",
+    blood_type: "Blood Type",
+
+    medical_info: "🩺 Medical Information",
+    conditions: "Medical Conditions",
+    allergies: "Allergies",
+    medications: "Medications",
+
+    makkah: "🏨 Makkah Accommodation",
+    madinah: "🏨 Madinah Accommodation",
+    hotel_name: "Hotel Name",
+    room_number: "Room Number",
+    view_map: "📍 View Location on Map",
+
+    emergency: "📞 Emergency Contact",
+    contact_name: "Contact Name",
+    relationship: "Relationship",
+    contact_number: "Contact Number",
+    call_emergency: "📞 Call Emergency Contact",
+
+    leader: "🧭 Group Leader Contact",
+    leader_name: "Leader Name",
+    leader_role: "Leader Role",
+    leader_phone: "Leader Phone",
+    call_leader: "📞 Call Group Leader"
+  },
+
+  ar: {
+    personal_info: "👤 المعلومات الشخصية",
+    age: "العمر",
+    gender: "الجنس",
+    nationality: "الجنسية",
+    group_agency: "الحملة / المجموعة",
+    blood_type: "فصيلة الدم",
+
+    medical_info: "🩺 المعلومات الطبية",
+    conditions: "الحالات الطبية",
+    allergies: "الحساسية",
+    medications: "الأدوية",
+
+    makkah: "🏨 سكن مكة",
+    madinah: "🏨 سكن المدينة",
+    hotel_name: "اسم الفندق",
+    room_number: "رقم الغرفة",
+    view_map: "📍 عرض الموقع على الخريطة",
+
+    emergency: "📞 جهة الاتصال للطوارئ",
+    contact_name: "اسم جهة الاتصال",
+    relationship: "صلة القرابة",
+    contact_number: "رقم الهاتف",
+    call_emergency: "📞 الاتصال بالطوارئ",
+
+    leader: "🧭 مسؤول المجموعة",
+    leader_name: "اسم المسؤول",
+    leader_role: "الصفة",
+    leader_phone: "رقم الهاتف",
+    call_leader: "📞 الاتصال بمسؤول المجموعة"
+  }
+};
+
+
   const firebaseConfig = {
     apiKey: "AIzaSyAql2b6h8Wd0d1MAhsz3HPB51A5yXNMByg",
     authDomain: "coworker-a215c.firebaseapp.com",
@@ -367,10 +445,32 @@ if (p.group_leader) {
   leader_call_btn.style.display = "none";
 }
 
+  function applyLanguage(lang) {
+  document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
+  document.body.style.textAlign = lang === "ar" ? "right" : "left";
+
+  document.querySelectorAll("[data-label]").forEach(el => {
+    const key = el.getAttribute("data-label");
+    if (labels[lang][key]) {
+      el.textContent = labels[lang][key];
+    }
+  });
+
+  langToggle.textContent = lang === "ar" ? "English" : "العربية";
+}
+
+  langToggle.addEventListener("click", () => {
+  currentLang = currentLang === "en" ? "ar" : "en";
+  applyLanguage(currentLang);
+});
+applyLanguage("en");
+
+
 </script>
 
 </body>
 </html>
+
 
 
 
