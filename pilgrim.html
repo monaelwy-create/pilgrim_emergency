@@ -5,18 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
   <title>Pilgrim Emergency Information</title>
-<button id="langToggle" style="
-  margin-top:12px;
-  background:#fff;
-  color:#8e2a2a;
-  border:none;
-  padding:8px 16px;
-  border-radius:20px;
-  font-size:14px;
-  cursor:pointer;
-">
-  العربية
-</button>
+
 
   <style>
    body {
@@ -127,6 +116,9 @@
   text-align: right;
 }
 
+[dir="rtl"] .call-btn {
+  text-align: center;
+}
 
   </style>
 </head>
@@ -137,6 +129,18 @@
 
   <div class="header">
     <h1>🚨 Emergency Pilgrim Information</h1>
+    <button id="langToggle" style="
+  margin-top:12px;
+  background:#fff;
+  color:#8e2a2a;
+  border:none;
+  padding:8px 16px;
+  border-radius:20px;
+  font-size:14px;
+  cursor:pointer;
+">
+  العربية
+</button>
   </div>
 
   <!-- PILGRIM PHOTO (NFC ONLY) -->
@@ -191,7 +195,7 @@
 
   <!-- MEDICAL -->
   <div class="section">
-    <h3>🩺 Medical Information</h3>
+    <h3 data-label="medical_info">🩺 Medical Information</h3>
 
      <div class="field">
       <span class="label" data-label="blood_type">Blood Type</span>
@@ -209,14 +213,14 @@
     </div>
 
     <div class="field">
-      <span class="label data-label="medications"">Medications</span>
+      <span class="label data-label="medications">Medications</span>
       <span class="value" id="medications"></span>
     </div>
   </div>
 
   <!-- MAKKAH HOTEL -->
   <div class="section">
-    <h3>🏨 Makkah Accommodation</h3>
+    <h3 data-label="makkah_accommodation">🏨 Makkah Accommodation</h3>
 
     <div class="field">
       <span class="label" data-label="makkah_name">Hotel Name</span>
@@ -233,7 +237,7 @@
 
   <!-- MADINAH HOTEL -->
   <div class="section">
-    <h3>🏨 Madinah Accommodation</h3>
+    <h3 data-label="madinah_accommodation">🏨 Madinah Accommodation</h3>
 
     <div class="field">
       <span class="label" data-label="madinah_name">Hotel Name</span>
@@ -250,7 +254,7 @@
 
   <!-- EMERGENCY CONTACT -->
  <div class="section">
-  <h3>📞 Emergency Contact</h3>
+  <h3 data-label="emergency">📞 Emergency Contact</h3>
 
   <div class="field">
     <span class="label" data-label="em_name">Contact Name</span>
@@ -274,7 +278,7 @@
 
     <!-- GROUP LEADER CONTACT -->
 <div class="section">
-  <h3>🧭 Group Leader Contact</h3>
+  <h3 data-label="leader">🧭 Group Leader Contact</h3>
 
   <div class="field">
     <span class="label" data-label="leader_name">Leader Name</span>
@@ -332,7 +336,18 @@ const labels = {
     leader_name: "Leader Name",
     leader_role: "Leader Role",
     leader_phone: "Leader Phone",
-    call_leader: "📞 Call Group Leader"
+    call_leader: "📞 Call Group Leader",
+
+    // EN
+pilgrim_id: "Pilgrim ID",
+
+makkah_accommodation: "🏨 Makkah Accommodation",
+madinah_accommodation: "🏨 Madinah Accommodation",
+
+em_name: "Contact Name",
+em_relation: "Relationship",
+em_phone: "Contact Number",
+
   },
 
   ar: {
@@ -364,7 +379,18 @@ const labels = {
     leader_name: "اسم المسؤول",
     leader_role: "الصفة",
     leader_phone: "رقم الهاتف",
-    call_leader: "📞 الاتصال بمسؤول المجموعة"
+    call_leader: "📞 الاتصال بمسؤول المجموعة",
+
+  // AR
+pilgrim_id: "رقم الحاج",
+
+makkah_accommodation: "🏨 سكن مكة",
+madinah_accommodation: "🏨 سكن المدينة",
+
+em_name: "اسم جهة الاتصال",
+em_relation: "صلة القرابة",
+em_phone: "رقم الهاتف",
+
   }
 };
 
@@ -380,7 +406,14 @@ const labels = {
 
   const id = new URLSearchParams(window.location.search).get("id");
   const snap = await getDoc(doc(db, "pilgrims", id));
-  const p = snap.data();
+
+if (!snap.exists()) {
+  alert("Pilgrim not found");
+  throw new Error("No document");
+}
+
+const p = snap.data();
+
 
   // SHOW PHOTO ONLY ON NFC PAGE
 if (p.photo_url) {
@@ -470,6 +503,7 @@ applyLanguage("en");
 
 </body>
 </html>
+
 
 
 
