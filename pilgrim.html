@@ -64,6 +64,16 @@
       display: block;
     }
 
+    const countries = {
+  EG: { en: "Egypt", ar: "مصر" },
+  SA: { en: "Saudi Arabia", ar: "المملكة العربية السعودية" },
+  ID: { en: "Indonesia", ar: "إندونيسيا" },
+  PK: { en: "Pakistan", ar: "باكستان" },
+  TR: { en: "Turkey", ar: "تركيا" },
+  IN: { en: "India", ar: "الهند" }
+};
+
+
     .value {
       color: #000;
       margin-top: 3px;
@@ -442,7 +452,12 @@ if (p.photo_url) {
   full_name.textContent = p.full_name || "";
   age.textContent = p.age ? p.age + " years" : "";
   gender.textContent = p.gender || "";
-  nationality.textContent = p.nationality || "";
+ if (p.nationality_code && countries[p.nationality_code]) {
+  nationality.textContent = countries[p.nationality_code][currentLang];
+} else {
+  nationality.textContent = "";
+}
+
   pilgrim_id.textContent = id;
   group_agency.textContent = p.group_agency || "";
  
@@ -506,6 +521,10 @@ if (p.group_leader) {
   });
 
   langToggle.textContent = lang === "ar" ? "English" : "العربية";
+    if (p?.nationality_code && countries[p.nationality_code]) {
+  nationality.textContent = countries[p.nationality_code][lang];
+}
+
 }
 
   langToggle.addEventListener("click", () => {
@@ -519,6 +538,7 @@ applyLanguage("en");
 
 </body>
 </html>
+
 
 
 
