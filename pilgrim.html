@@ -3,15 +3,26 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
   <title>Pilgrim Emergency Information</title>
+<button id="langToggle" style="
+  margin-top:12px;
+  background:#fff;
+  color:#8e2a2a;
+  border:none;
+  padding:8px 16px;
+  border-radius:20px;
+  font-size:14px;
+  cursor:pointer;
+">
+  العربية
+</button>
 
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f4f6f8;
-      margin: 0;
-      padding: 15px;
-    }
+   body {
+  font-family: 'Cairo', Arial, sans-serif;
+}
+
 
     .container {
       max-width: 850px;
@@ -141,10 +152,10 @@
 
   <!-- BASIC INFO -->
   <div class="section">
-    <h3>👤 Personal Information</h3>
+   <h3 data-label="personal_info">👤 Personal Information</h3>
 
     <div class="field">
-      <span class="label">Age</span>
+     <span class="label" data-label="age">Age</span>
       <span class="value" id="age"></span>
     </div>
 
@@ -360,6 +371,7 @@ if (p.group_leader) {
 
 </body>
 </html>
+
 
 
 
